@@ -26,35 +26,7 @@ public class CartService implements ICartService {
     @Autowired
     UserRepository userRepository;
 
-    @Override
-    public ResponseDTO getCartDetails() {
-        List<Cart> getCartDetails = cartRepository.findAll();
-        ResponseDTO dto= new ResponseDTO();
-        if (getCartDetails.isEmpty()){
-            String   message=" the cart is empty!!!";
-            dto.setMessage(message);
-            dto.setData(0);
-            return dto;
-
-        }
-        else {
-            dto.setMessage("the list of cart items is sucussfully retrived.");
-            dto.setData(getCartDetails);
-            return dto;
-        }
-    }
-
-    @Override
-    public Optional<Cart> getCartDetailsById(Integer cartId) {
-        Optional<Cart> getCartData = cartRepository.findById(cartId);
-        if (getCartData.isPresent()){
-            return getCartData;
-        }
-        else {
-            throw new CartException(" Didn't find any record for this particular cartId");
-        }
-    }
-
+    // Create a cart
     public Cart createCart(CartDTO cartDTO) {
         Optional<Book> book = bookRepository.findById(cartDTO.getBookId());
         Optional<UserData> userRegistration = userRepository.findById(cartDTO.getUserId());
@@ -63,22 +35,34 @@ public class CartService implements ICartService {
             cartRepository.save(newCart);
             return newCart;
         } else {
-            throw new BookException("Book or User doesn't exists!");
+            throw new BookException("Book or User doesn't exists..!!!");
         }
     }
 
+    @Override
+    public ResponseDTO getCartDetails() {
+        List<Cart> getCartDetails = cartRepository.findAll();
+        ResponseDTO responseDTO= new ResponseDTO();
+        if (getCartDetails.isEmpty()){
+            String message = "the cart is empty!!!";
+            responseDTO.setMessage(message);
+            responseDTO.setData(0);
+        } else {
+            responseDTO.setMessage("the list of cart items is successfully retrieved...");
+            responseDTO.setData(getCartDetails);
+        }
+        return responseDTO;
+    }
 
-
-//    @Override
-//    public Cart updateCart(int cartId, CartDTO cartDTO) {
-//        Optional<Cart> cart = cartRepository.findById(cartId);
-//        if (cart.isPresent()) {
-//            cart.get().updateCart(cartDTO);
-//            return cartRepository.save(cart.get());
-//        } else {
-//            throw new CartException("Cart Not Found!!!");
-//        }
-//    }
+    @Override
+    public Optional<Cart> getCartDetailsById(Integer cartId) {
+        Optional<Cart> getCartData = cartRepository.findById(cartId);
+        if (getCartData.isPresent()){
+            return getCartData;
+        } else {
+            throw new CartException("Didn't find any record for this cartId");
+        }
+    }
 
     @Override
     public Cart updateCartById(Integer cartId, CartDTO cartDTO) {
@@ -90,14 +74,11 @@ public class CartService implements ICartService {
                 Cart newCart = new Cart(cartId, user.get(),book.get(), cartDTO.getQuantity());
                 cartRepository.save(newCart);
                 return newCart;
+            } else {
+                throw new BookException("Book or User doesn't exists..!!!");
             }
-            else {
-                throw new BookException("Book or User doesn't exists!");
-            }
-
-        }
-        else {
-            throw new CartException("Cart Record doesn't exists");
+        } else {
+            throw new CartException("Cart Record doesn't exists..!!!");
         }
     }
 
@@ -112,14 +93,11 @@ public class CartService implements ICartService {
                 book.get().setQuantity(book.get().getQuantity() - (quantity - cart.get().getQuantity()));
                 bookRepository.save(book.get());
                 return cart.get();
-            }
-            else {
+            } else {
                 throw new BookException("Requested quantity is not available");
             }
-
-        }
-        else {
-            throw new CartException("Cart Record doesn't exists");
+        } else {
+            throw new CartException("Cart Record doesn't exists..!!!");
         }
     }
 
@@ -129,17 +107,8 @@ public class CartService implements ICartService {
         if (deleteData.isPresent()){
             cartRepository.deleteById(cartId);
             return deleteData;
+        } else {
+            throw new CartException(" Didn't get any cart for specified cart id ");
         }
-        else {
-            throw new CartException(" Did not get any cart for specific cart id ");
-        }
-
     }
-//
-//    @Override
-//    public void deleteCart(int cartId) {
-//        Cart cart = this.getCartById(cartId);
-//        cartRepository.delete(cart);
-//    }
-
 }

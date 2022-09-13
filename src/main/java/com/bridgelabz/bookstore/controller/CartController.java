@@ -4,14 +4,11 @@ import com.bridgelabz.bookstore.dto.CartDTO;
 import com.bridgelabz.bookstore.dto.ResponseDTO;
 import com.bridgelabz.bookstore.entity.Cart;
 import com.bridgelabz.bookstore.services.CartService;
-import com.bridgelabz.bookstore.services.ICartService;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -22,10 +19,10 @@ public class CartController {
     @Autowired
     CartService cartService;
 
-    @PostMapping("/save")
-    public ResponseEntity<ResponseDTO> insertItem(@Valid @RequestBody CartDTO cartdto) {
+    @PostMapping("/create")
+    public ResponseEntity<ResponseDTO> insertCart(@Valid @RequestBody CartDTO cartdto) {
         Cart newCart = cartService.createCart(cartdto);
-        ResponseDTO responseDTO = new ResponseDTO("added successfully !", newCart);
+        ResponseDTO responseDTO = new ResponseDTO("Book added to cart successfully...", newCart);
         return new ResponseEntity(responseDTO, HttpStatus.CREATED);
     }
 
@@ -34,7 +31,6 @@ public class CartController {
         ResponseDTO responseDTO = cartService.getCartDetails();
         return responseDTO;
     }
-
 
     @GetMapping("/getById/{cartId}")
     public ResponseEntity<ResponseDTO> getCartDetailsById(@PathVariable Integer cartId) {
@@ -46,7 +42,7 @@ public class CartController {
     @DeleteMapping("/delete/{cartId}")
     public ResponseEntity<ResponseDTO> deleteCartById(@PathVariable Integer cartId) {
         Optional<Cart> delete = cartService.deleteCartItemById(cartId);
-        ResponseDTO responseDTO = new ResponseDTO("Cart delete successfully", delete);
+        ResponseDTO responseDTO = new ResponseDTO("Cart deleted successfully...!", delete);
         return new ResponseEntity(responseDTO, HttpStatus.OK);
     }
 
@@ -61,7 +57,7 @@ public class CartController {
     @GetMapping("/updateCartQuantity/{id}")
     public ResponseEntity<ResponseDTO> updateQuantity(@PathVariable Integer id, @RequestParam Integer quantity) {
         Cart newCart = cartService.updateQuantity(id, quantity);
-        ResponseDTO dto = new ResponseDTO("Quantity for book record updated successfully !", newCart);
+        ResponseDTO dto = new ResponseDTO("Quantity for book record updated successfully...", newCart);
         return new ResponseEntity(dto, HttpStatus.OK);
     }
 }

@@ -17,62 +17,58 @@ import java.util.Optional;
 @Service
 public class MyWishlistService {
 
+    @Autowired
+    private WishListRepository wishListRepository;
 
     @Autowired
-    private WishListRepository WishlistRepo;
+    private UserRepository userRepository;
 
     @Autowired
-    private UserRepository userRepo;
-
-    @Autowired
-    private BookRepository bookRepo;
+    private BookRepository bookRepository;
 
     public MyWishList addToWishlist(MyWishListDTO dto) {
-        Optional<UserData> user = userRepo.findById(dto.getUserId());
-        Optional<Book> book = bookRepo.findById(dto.getBookId());
+        Optional<UserData> user = userRepository.findById(dto.getUserId());
+        Optional<Book> book = bookRepository.findById(dto.getBookId());
         if(user.isPresent() && book.isPresent()) {
             MyWishList newWishList = new MyWishList(user.get(),book.get());
-            WishlistRepo.save(newWishList);
+            wishListRepository.save(newWishList);
             return newWishList;
-        }
-        else {
-            throw new BookException("User or Book doesn't exists");
+        } else {
+            throw new BookException("User or Book doesn't exists..!!!");
         }
     }
-
 
     public List<MyWishList> getAllWishlists() {
-        List<MyWishList> list = WishlistRepo.findAll();
+        List<MyWishList> list = wishListRepository.findAll();
         return list;
     }
+
     public List<MyWishList> getWishlistRecordById(Integer id){
-        List<MyWishList> list = WishlistRepo.findByWishlistId(id);
+        List<MyWishList> list = wishListRepository.findByWishlistId(id);
         if(list.isEmpty()) {
-            throw new BookException("Wishlist doesn't exists for id "+id);
-        }
-        else {
+            throw new BookException("Wishlist doesn't exists for id " + id);
+        } else {
             return list;
         }
     }
 
     public List<MyWishList> getWishlistRecordByBookId(Integer bookId) {
-        List<MyWishList> list = WishlistRepo.findByBookId(bookId);
+        List<MyWishList> list = wishListRepository.findByBookId(bookId);
         if(list.isEmpty()) {
             return null;
-        }
-        else {
+        } else {
             return list;
         }
     }
 
     public List<MyWishList> getWishlistRecordByUserId(Integer userId) {
-        List<MyWishList> list = WishlistRepo.findByUserId(userId);
+        List<MyWishList> list = wishListRepository.findByUserId(userId);
         return list;
     }
 
     public MyWishList deleteWishlistRecordById(Integer Id) {
-        Optional<MyWishList> list = WishlistRepo.findById(Id);
-        WishlistRepo.deleteById(Id);
+        Optional<MyWishList> list = wishListRepository.findById(Id);
+        wishListRepository.deleteById(Id);
         return list.get();
     }
 }

@@ -9,12 +9,6 @@ import java.util.Optional;
 
 public interface ICartService {
 
-//    List<Cart> getCartData();
-//
-//    Cart getCartById(int cartID);
-//
-//    Cart createCart(CartDTO cartDTO);
-
     ResponseDTO getCartDetails();
 
     Optional<Cart> getCartDetailsById(Integer cartId);
@@ -24,7 +18,4 @@ public interface ICartService {
     Cart updateQuantity(Integer id, Integer quantity);
 
     Optional<Cart> deleteCartItemById(Integer cartId);
-
-//    void deleteCart(int cartId);
-
 }

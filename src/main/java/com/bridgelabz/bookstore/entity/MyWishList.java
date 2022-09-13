@@ -1,10 +1,11 @@
 package com.bridgelabz.bookstore.entity;
 
+import lombok.Data;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "my_wish_list")
-public class MyWishList {
+@Table(name = "wish_list")
+public @Data class MyWishList {
 
     @Id
     @GeneratedValue
@@ -21,34 +22,9 @@ public class MyWishList {
 
     }
 
-    public Integer getWishlistId() {
-        return wishlistId;
-    }
-
-    public void setWishlistId(Integer wishlistId) {
-        this.wishlistId = wishlistId;
-    }
-
-    public UserData getUser() {
-        return user;
-    }
-
-    public void setUser(UserData user) {
-        this.user = user;
-    }
-
-    public Book getBook() {
-        return book;
-    }
-
-    public void setBook(Book book) {
-        this.book = book;
-    }
-
     public MyWishList(UserData user, Book book) {
         super();
         this.user = user;
         this.book = book;
     }
-
 }

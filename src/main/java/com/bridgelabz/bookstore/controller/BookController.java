@@ -21,17 +21,17 @@ public class BookController {
     @Autowired
     BookService bookService;
 
-    // Add Data to repo
-    @PostMapping("/save")
+    // Add New Book Into Bookstore
+
+    @PostMapping("/create")
     public ResponseEntity<String> addBookToRepository(@Valid @RequestBody BookDTO bookDTO) {
         Book newBook = bookService.createBook(bookDTO);
-        ResponseDTO responseDTO = new ResponseDTO("New Book Added in Book Store", newBook);
-
+        ResponseDTO responseDTO = new ResponseDTO("New Book Created in Book Store", newBook);
         return new ResponseEntity(responseDTO, HttpStatus.CREATED);
     }
 
-
     // Get All
+
     @GetMapping("/getAll")
     public ResponseEntity<ResponseDTO> getAllBookData() {
         List<Book> listOfBooks = bookService.getAllBookData();
@@ -40,39 +40,40 @@ public class BookController {
     }
 
     // Get All by BookId
-    @GetMapping("/getBy/{BookId}")
-    public ResponseEntity<String> getBookDataById(@PathVariable int BookId) {
-        Book Book = bookService.getBookDataById(BookId);
-        ResponseDTO dto = new ResponseDTO("Data retrieved successfully by id :", Book);
+
+    @GetMapping("/getBy/{bookId}")
+    public ResponseEntity<String> getBookDataById(@PathVariable int bookId) {
+        Book book = bookService.getBookDataById(bookId);
+        ResponseDTO dto = new ResponseDTO("Data retrieved successfully by id :", book);
         return new ResponseEntity(dto, HttpStatus.OK);
     }
 
     // Delete by id
-    @DeleteMapping("/delete/{BookId}")
-    public ResponseEntity<String> deleteRecordById(@PathVariable int BookId) {
-        ResponseDTO dto = new ResponseDTO("Book Record deleted successfully", bookService.deleteRecordByToken(BookId));
+
+    @DeleteMapping("/delete/{bookId}")
+    public ResponseEntity<String> deleteRecordById(@PathVariable int bookId) {
+        ResponseDTO dto = new ResponseDTO("Book Record deleted successfully", bookService.deleteRecordByToken(bookId));
         return new ResponseEntity(dto, HttpStatus.OK);
     }
 
     // Search by Name
+
     @CrossOrigin
     @GetMapping(value = "searchByBookName/{name}")
     public ResponseEntity getBookByName(@PathVariable(required = false) Optional<String> name) {
-
         if (name.isPresent()) {
-
             List<Book> updateRecord = bookService.getBookByName(name.get());
-            ResponseDTO dto = new ResponseDTO(" Book is get  successfully by Name", updateRecord);
+            ResponseDTO dto = new ResponseDTO(" Book is get successfully by Name", updateRecord);
             return new ResponseEntity(dto, HttpStatus.ACCEPTED);
-
         } else {
-            ResponseDTO dto = new ResponseDTO(" Book is get  successfully by Name", new Book());
+            ResponseDTO dto = new ResponseDTO(" Book is get successfully by Name", new Book());
 
             return new ResponseEntity(dto, HttpStatus.ACCEPTED);
         }
     }
 
     // update record by id
+
     @PutMapping("/updateBookById/{BookId}")
     public ResponseEntity<String> updateRecordById(@PathVariable Integer BookId, @Valid @RequestBody BookDTO bookDTO) {
         Book updateRecord = bookService.updateRecordById(BookId, bookDTO);
@@ -80,28 +81,27 @@ public class BookController {
         return new ResponseEntity(dto, HttpStatus.ACCEPTED);
     }
 
-    // sort books by price in ascending order
-    @GetMapping("/sortAsc")
+    // Sorting Books ascending order by price
+    @GetMapping("/sortingAscending")
     public ResponseEntity<ResponseDTO> getBooksInAscendingOrder() {
         List<Book> listOfBooks = bookService.sortedListOfBooksInAscendingOrder();
         ResponseDTO dto = new ResponseDTO("Data retrieved successfully :", listOfBooks);
         return new ResponseEntity(dto, HttpStatus.OK);
-
     }
 
-    // sort books by price in descending order
-    @GetMapping("/sortDesc")
+    // Sorting Books descending order by price
+    @GetMapping("/sortingDescending")
     public ResponseEntity<ResponseDTO> getBooksInDescendingOrder() {
         List<Book> listOfBooks = bookService.sortedListOfBooksInDescendingOrder();
         ResponseDTO dto = new ResponseDTO("Data retrieved successfully :", listOfBooks);
         return new ResponseEntity(dto, HttpStatus.OK);
-
     }
 
+    // Update Books quantity records
     @PutMapping("/updateQuantity/{id}")
     public ResponseEntity<ResponseDTO> updateQuantity(@PathVariable Integer id, @RequestParam Integer quantity) {
         Book newBook = bookService.updateQuantity(id, quantity);
-        ResponseDTO dto = new ResponseDTO("Quantity for book record updated successfully !", newBook);
+        ResponseDTO dto = new ResponseDTO("Quantity for book record updated successfully...", newBook);
         return new ResponseEntity(dto, HttpStatus.OK);
     }
 

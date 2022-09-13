@@ -24,14 +24,12 @@ public class BookService implements IBookService{
     }
 
     @Override
-    public Book getBookDataById(int BookId) {
-        Optional<Book> getBook=bookRepository.findById(BookId);
+    public Book getBookDataById(int bookId) {
+        Optional<Book> getBook=bookRepository.findById(bookId);
         if(getBook.isPresent()){
             return getBook.get();
-
         }
         throw new BookException("Book Store Details for id not found");
-
     }
 
     @Override
@@ -41,40 +39,34 @@ public class BookService implements IBookService{
     }
 
     @Override
-    public Book updateRecordById(Integer BookId, BookDTO bookDTO) {
-
-        Optional<Book> updateBook = bookRepository.findById(BookId);
+    public Book updateRecordById(Integer bookId, BookDTO bookDTO) {
+        Optional<Book> updateBook = bookRepository.findById(bookId);
         if (updateBook.isPresent()) {
-            Book updateUser = new Book(BookId, bookDTO);
+            Book updateUser = new Book(bookId, bookDTO);
             bookRepository.save(updateUser);
             return updateUser;
 
         } else {
             throw new BookException("Book record doesn't found");
-
         }
     }
 
-
     @Override
-    public Object deleteRecordByToken(int BookId) {
-        Optional<Book> newBook = bookRepository.findById(BookId);
+    public Object deleteRecordByToken(int bookId) {
+        Optional<Book> newBook = bookRepository.findById(bookId);
         if (newBook.isPresent()) {
-            bookRepository.deleteById(BookId);
-
+            bookRepository.deleteById(bookId);
         } else {
-            throw new BookException("Book record does not found");
+            throw new BookException("Book record doesn't found");
         }
         return null;
     }
 
-
     @Override
     public List <Book> getBookByName(String bookName) {
-
         List<Book> listOfBooks = bookRepository.findByBookName(bookName);
         if(listOfBooks.isEmpty()) {
-            throw new BookException("No book with this  name sorry !!");
+            throw new BookException("No Book found with this name.. sorry !!!");
         }
         return listOfBooks;
     }
@@ -98,7 +90,6 @@ public class BookService implements IBookService{
             book.get().setQuantity(quantity);
             bookRepository.save(book.get());
             return book.get();
-
         }
         else {
             throw new BookException("Book Record doesn't exists");

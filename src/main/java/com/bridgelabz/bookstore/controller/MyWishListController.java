@@ -18,45 +18,44 @@ public class MyWishListController {
     private MyWishlistService wishlistService;
 
     @PostMapping("/save")
-    public ResponseEntity<ResponseDTO> addToWishlist(@RequestBody MyWishListDTO myWishListDTO){
+    public ResponseEntity<ResponseDTO> addToWishlist(@RequestBody MyWishListDTO myWishListDTO) {
         MyWishList myWishList = wishlistService.addToWishlist(myWishListDTO);
-        ResponseDTO dto = new ResponseDTO("Wishlist added successfully",myWishList);
+        ResponseDTO dto = new ResponseDTO("Wishlist added successfully...",myWishList);
         return new ResponseEntity(dto, HttpStatus.OK);
     }
 
     @GetMapping("/retrieveAll")
-    public ResponseEntity<ResponseDTO> getAllWishlists(){
+    public ResponseEntity<ResponseDTO> getAllWishlists() {
         List<MyWishList> wishlist = wishlistService.getAllWishlists();
-        ResponseDTO dto = new ResponseDTO("All Wishlist records retrieved successfully",wishlist);
+        ResponseDTO dto = new ResponseDTO("All Wishlist records retrieved successfully...",wishlist);
         return new ResponseEntity(dto,HttpStatus.OK);
     }
 
     @GetMapping("/retrieve/{id}")
-    public ResponseEntity<ResponseDTO> getWishlistRecordById(@PathVariable Integer id){
+    public ResponseEntity<ResponseDTO> getWishlistRecordById(@PathVariable Integer id) {
         List<MyWishList> wishlist = wishlistService.getWishlistRecordById(id);
         ResponseDTO dto = new ResponseDTO("Wishlist record retrieved successfully for given id",wishlist);
         return new ResponseEntity(dto,HttpStatus.OK);
     }
 
     @GetMapping("/retrieveByBookId/{bookId}")
-    public ResponseEntity<ResponseDTO> getWishlistRecordByBookId(@PathVariable Integer bookId){
+    public ResponseEntity<ResponseDTO> getWishlistRecordByBookId(@PathVariable Integer bookId) {
         List<MyWishList> wishlist = wishlistService.getWishlistRecordByBookId(bookId);
-        ResponseDTO dto = new ResponseDTO("Wishlist record retrieved successfully for given book id",wishlist);
+        ResponseDTO dto = new ResponseDTO("Wishlist record retrieved successfully for given Book Id",wishlist);
         return new ResponseEntity(dto,HttpStatus.OK);
     }
 
     @GetMapping("/retrieveByUserId/{userId}")
-    public ResponseEntity<ResponseDTO> getWishlistRecordByUserId(@PathVariable Integer userId){
+    public ResponseEntity<ResponseDTO> getWishlistRecordByUserId(@PathVariable Integer userId) {
         List<MyWishList> wishlist = wishlistService.getWishlistRecordByUserId(userId);
-        ResponseDTO dto = new ResponseDTO("Wishlist record retrieved successfully for given user id",wishlist);
+        ResponseDTO dto = new ResponseDTO("Wishlist record retrieved successfully for given User Id",wishlist);
         return new ResponseEntity(dto, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<ResponseDTO> deleteWishlistRecordById(@PathVariable Integer id){
+    public ResponseEntity<ResponseDTO> deleteWishlistRecordById(@PathVariable Integer id) {
         MyWishList wishlist = wishlistService.deleteWishlistRecordById(id);
-        ResponseDTO dto = new ResponseDTO("Wishlist record deleted successfully for given id",wishlist);
+        ResponseDTO dto = new ResponseDTO("Wishlist record deleted successfully for given Id",wishlist);
         return new ResponseEntity(dto,HttpStatus.OK);
     }
-
 }

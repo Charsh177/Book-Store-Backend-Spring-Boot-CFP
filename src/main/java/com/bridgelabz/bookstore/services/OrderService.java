@@ -27,25 +27,23 @@ public class OrderService implements IOrderService {
     @Autowired
     private UserRepository userRepository;
 
-    //  book.get().setQuantity(book.get().getQuantity() - orderdto.getQuantity());
-
-    public Order insertOrder(OrderDTO orderdto) {
-
-        Optional<Book> book = bookRepository.findById(orderdto.getBookId());
-        Optional<UserData> user = userRepository.findById(orderdto.getUserId());
+    public Order createOrder(OrderDTO orderDTO) {
+        Optional<Book> book = bookRepository.findById(orderDTO.getBookId());
+        Optional<UserData> user = userRepository.findById(orderDTO.getUserId());
         if (book.isPresent() && user.isPresent()) {
-            if (orderdto.getQuantity()< book.get().getQuantity()) {
-                System.out.println("The BOOK PRICE IS :>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> "+book.get().getPrice());
-                Order newOrder = new Order(book.get().getPrice(),orderdto.getQuantity(), orderdto.getAddress(), book.get(), user.get(), orderdto.isCancel(),book.get().getBookName());
+            if (orderDTO.getQuantity() < book.get().getQuantity()) {
+                System.out.println("The book price is :::: "+book.get().getPrice());
+                Order newOrder = new Order(book.get().getPrice(),orderDTO.getQuantity(), orderDTO.getAddress(),
+                        book.get(), user.get(), orderDTO.isCancel(),book.get().getBookName());
                 orderRepository.save(newOrder);
-                book.get().setQuantity(book.get().getQuantity() - orderdto.getQuantity());
-                System.out.println("New Order =================" + newOrder);
+                book.get().setQuantity(book.get().getQuantity() - orderDTO.getQuantity());
+                System.out.println("New Order is :::: " + newOrder);
                 return newOrder;
             } else {
                 throw new BookException("Requested quantity is not available");
             }
         } else {
-            throw new BookException("Book or User doesn't exists");
+            throw new BookException("Book or User doesn't exists..!!!");
         }
     }
 
@@ -54,25 +52,18 @@ public class OrderService implements IOrderService {
         return orderList;
     }
 
-//    public List<Order> getAllOrderRecords() {
-//        List<Order> orderList = orderRepo.listOrder();
-//        return orderList;
-//    }
-
     public Order getOrderRecord(Integer id) {
         Optional<Order> order = orderRepository.findById(id);
         if (order.isPresent()) {
             return order.get();
-
         } else {
-            throw new BookException("Order Record doesn't exists");
+            throw new BookException("Order Record doesn't exists..!!!");
         }
     }
 
     public Order updateOrderRecord(Integer id, OrderDTO dto) {
         Optional<Order> order = orderRepository.findById(id);
-        Optional<Book> book = bookRepository.findById(dto.getBookId())
-                ;
+        Optional<Book> book = bookRepository.findById(dto.getBookId());
         Optional<UserData> user = userRepository.findById(dto.getUserId());
         if (order.isPresent()) {
             if (book.isPresent() && user.isPresent()) {
@@ -84,12 +75,10 @@ public class OrderService implements IOrderService {
                     throw new BookException("Requested quantity is not available");
                 }
             } else {
-                throw new BookException("Book or User doesn't exists");
-
+                throw new BookException("Book or User doesn't exists..!!!");
             }
-
         } else {
-            throw new BookException("Order Record doesn't exists");
+            throw new BookException("Order Record doesn't exists..!!!");
         }
     }
 
@@ -98,9 +87,8 @@ public class OrderService implements IOrderService {
         if (order.isPresent()) {
             orderRepository.deleteById(id);
             return order.get();
-
         } else {
-            throw new BookException("Order Record doesn't exists");
+            throw new BookException("Order Record doesn't exists..!!!");
         }
     }
 }

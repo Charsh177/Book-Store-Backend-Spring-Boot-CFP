@@ -17,7 +17,7 @@ public @Data class Cart {
     @Column(name = "cart_id")
     private Integer cartId;
 
-    @JsonIgnoreProperties({"applicatitions", "hibernateLazyInitializer"})
+    @JsonIgnoreProperties({"applications", "hibernateLazyInitializer"})
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private UserData userData;
@@ -32,5 +32,4 @@ public @Data class Cart {
         this.book = book;
         this.quantity = quantity;
     }
-
 }

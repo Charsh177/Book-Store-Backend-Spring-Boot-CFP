@@ -1,16 +1,18 @@
 package com.bridgelabz.bookstore.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@Data
 @Table(name = "order_table")
-public class Order {
+@AllArgsConstructor
+public @Data class Order {
     @Id
     @GeneratedValue
     private Integer orderID;
+
     private LocalDate date = LocalDate.now();
     private Integer price;
     private Integer quantity;
@@ -47,68 +49,13 @@ public class Order {
         this.cancel = cancel;
     }
 
-    public Integer getOrderID() {
-        return orderID;
-    }
-
-    public void setOrderID(Integer orderID) {
-        this.orderID = orderID;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
+    public Order(Integer price, Integer quantity, String address, Book book, UserData userData, boolean cancel, String bookName, LocalDate date) {
+        this.price = price;
+        this.quantity = quantity;
+        this.address = address;
+        this.book = book;
+        this.user = userData;
+        this.cancel = cancel;
         this.date = date;
     }
-
-    public Integer getPrice() {
-        return price;
-    }
-
-    public void setPrice(Integer price) {
-        this.price = price;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public UserData getUser() {
-        return user;
-    }
-
-    public void setUser(UserData user) {
-        this.user = user;
-    }
-
-    public Book getBook() {
-        return book;
-    }
-
-    public void setBook(Book book) {
-        this.book = book;
-    }
-
-    public boolean isCancel() {
-        return cancel;
-    }
-
-    public void setCancel(boolean cancel) {
-        this.cancel = cancel;
-    }
-
 }

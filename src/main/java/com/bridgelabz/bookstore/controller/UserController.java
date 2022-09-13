@@ -4,7 +4,6 @@ import com.bridgelabz.bookstore.dto.ResponseDTO;
 import com.bridgelabz.bookstore.dto.UserDTO;
 import com.bridgelabz.bookstore.entity.UserData;
 import com.bridgelabz.bookstore.services.UserService;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,31 +19,28 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    //hello
-    @GetMapping("/")
-    public String hello() {
-        return "welcome to user registration page";
+    // register user with otp
+    @PostMapping("/registerWithOtp")
+    public ResponseEntity<ResponseDTO> registerUserOtp(@Valid @RequestBody UserDTO userDTO) {
+        System.out.println(userDTO.getUserPassword());
+        UserData userRegistration = userService.registerUser(userDTO);
+        ResponseDTO responseDTO = new ResponseDTO("User Registered Successfully", userRegistration);
+        return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
     }
 
-    // Returns  the used if the mail id is given in the parameter
-    @GetMapping("/getuserid")
-    public Integer getUserIdByEMail(@RequestParam String email) {
-        return userService.loginUserId(email);
+
+    // verify otp
+    @GetMapping("/verifyOtp")
+    public String verifyOtp(@RequestParam String email, @RequestParam Integer otp) {
+        return userService.verifyOtp(email, otp);
     }
 
-    //Login
+    // Login
     @GetMapping("/login")
     public String userLogin(@RequestParam String email,@RequestParam String password) {
         UserDTO userLoginDTO=new UserDTO(email, password);
         String response = userService.loginUsers(userLoginDTO.getEmail(),userLoginDTO.getUserPassword());
         return response;
-    }
-
-    // Returns the login status Login
-    @GetMapping("/logintest")
-    public int userTestLogin(@RequestParam String email,@RequestParam String password) {
-        int status=userService.loginUserTest(email,password);
-        return status;
     }
 
     @PostMapping("/register")
@@ -54,15 +50,7 @@ public class UserController {
         return new ResponseEntity(responseDTO, HttpStatus.CREATED);
     }
 
-    @PostMapping("/registerWithOtp")
-    public ResponseEntity<ResponseDTO> registerUserOtp(@Valid @RequestBody UserDTO userDTO) {
-        System.out.println(userDTO.getUserPassword());
-        UserData userRegistration = userService.registerUser(userDTO);
-        ResponseDTO responseDTO = new ResponseDTO("User Registered Successfully", userRegistration);
-        return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
-    }
-
-    //Get All Users
+    // Get All Users
     @GetMapping(value = "/getAll")
     public ResponseEntity<String> getAllUser() {
         List<UserData> listOfUsers = userService.getAllUsers();
@@ -70,46 +58,32 @@ public class UserController {
         return new ResponseEntity(dto,HttpStatus.OK);
     }
 
-    //Get All Users
-    @GetMapping(value = "/getuserById/{id}")
-    public ResponseEntity<String> getAllUserById(@PathVariable int id)
-    {
-        UserData user = userService.getUserByID(id);
-        ResponseDTO dto = new ResponseDTO("User retrieved successfully ",user);
-        return new ResponseEntity(dto,HttpStatus.OK);//
-    }
-
-
     @GetMapping(value = "/getAll/{token}")
-    public ResponseEntity<ResponseDTO> getAllUserDataByToken(@PathVariable String token)
-    {
+    public ResponseEntity<ResponseDTO> getAllUserDataByToken(@PathVariable String token) {
         List<UserData> listOfUser = userService.getAllUserDataByToken(token);
-        ResponseDTO dto = new ResponseDTO("Data retrieved successfully (:",listOfUser);
+        ResponseDTO dto = new ResponseDTO("Data retrieved successfully :::",listOfUser);
         return new ResponseEntity(dto,HttpStatus.OK);
     }
 
-    //Get by email id
+    // Get by email id
     @GetMapping("/getByEmailId/{emailId}")
     public ResponseEntity<ResponseDTO> getUserByEmailId(@PathVariable("emailId") String emailId) {
-        return new ResponseEntity<ResponseDTO>( new
-                ResponseDTO("Get User Data by Email",
+        return new ResponseEntity<ResponseDTO>( new ResponseDTO("Get User Data by Email",
                 userService.getUserByEmailId(emailId)), HttpStatus.OK);
     }
 
-    //Get user by user token
-    @GetMapping("/getIdByToken/{token}")
-    public ResponseEntity<ResponseDTO> getUserById(@PathVariable String token) {
-        return new ResponseEntity<ResponseDTO>( new
-                ResponseDTO("Get User Data By Id",
-                userService.getUserById(token)), HttpStatus.OK);
+    // Get user details by token
+    @GetMapping("/getUserByToken/{token}")
+    public ResponseEntity<ResponseDTO> getUserByToken(@PathVariable String token) {
+        return new ResponseEntity<ResponseDTO>( new ResponseDTO("Get User Id / Data By Token :::",
+                userService.getUserByToken(token)), HttpStatus.OK);
     }
 
-
-    //Forget password by email
+    // Forget password reset
     @PostMapping("/forgotpassword")
     public ResponseEntity<String> forgotPassword(@RequestParam String email, @RequestParam String password) {
-        String resp = userService.forgotPassword(email,password);
-        return new ResponseEntity(resp, HttpStatus.OK);
+        String resPass = userService.forgotPassword(email,password);
+        return new ResponseEntity(resPass, HttpStatus.OK);
     }
 
     // Update user by id
@@ -120,8 +94,7 @@ public class UserController {
         return new ResponseEntity(dto,HttpStatus.ACCEPTED);
     }
 
-
-    //Update user by email
+    // Update user by email
     @PutMapping("/updateUserByEmail/{email}")
     public ResponseEntity<ResponseDTO> updateUserById(@PathVariable String email,@Valid @RequestBody UserDTO userDTO){
         UserData updateUser= userService.updateUser(email,userDTO);
@@ -129,6 +102,7 @@ public class UserController {
         return new ResponseEntity(dto,HttpStatus.ACCEPTED);
     }
 
+    // Update User by token
     @PutMapping("/updatebyToken/{token}")
     public ResponseEntity<String> updateRecordById(@PathVariable String token,@Valid @RequestBody UserDTO userDTO){
         UserData entity = userService.updateRecordByToken(token,userDTO);
@@ -141,11 +115,4 @@ public class UserController {
         ResponseDTO responseDTO=new ResponseDTO("Token for mail id sent on mail successfully",generatedToken);
         return new ResponseEntity(responseDTO,HttpStatus.OK);
     }
-
-
-    @GetMapping("/verifyOtp")
-    public String verifyOtp(@RequestParam String email, @RequestParam Integer otp) {
-        return userService.verifyOtp(email, otp);
-    }
-
 }
