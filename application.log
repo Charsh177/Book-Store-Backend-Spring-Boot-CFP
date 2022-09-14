@@ -1156,3 +1156,17 @@ java.sql.SQLSyntaxErrorException: Table 'book_store.wishlist' doesn't exist
 2022-09-14 03:33:37.898  WARN 7060 --- [http-nio-8080-exec-8] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.bind.MissingServletRequestParameterException: Required request parameter 'password' for method parameter type String is not present]
 2022-09-14 03:44:46.915  WARN 7060 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=47s612ms570µs700ns).
 2022-09-14 03:45:31.783  WARN 7060 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=45s254ms862µs800ns).
+2022-09-14 08:37:25.662  INFO 3104 --- [restartedMain] c.b.bookstore.BookStoreApplication       : Starting BookStoreApplication using Java 18.0.1.1 on DESKTOP-LR39488 with PID 3104 (C:\Users\admin\CFP_Projects\BookStore\target\classes started by admin in C:\Users\admin\CFP_Projects\BookStore)
+2022-09-14 08:37:25.806 DEBUG 3104 --- [restartedMain] c.b.bookstore.BookStoreApplication       : Running with Spring Boot v2.7.3, Spring v5.3.22
+2022-09-14 08:37:25.807  INFO 3104 --- [restartedMain] c.b.bookstore.BookStoreApplication       : The following 1 profile is active: "dev"
+2022-09-14 08:37:49.069  WARN 3104 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-09-14 08:37:50.238  INFO 3104 --- [restartedMain] c.b.bookstore.BookStoreApplication       : Started BookStoreApplication in 27.894 seconds (JVM running for 46.421)
+2022-09-14 08:37:50.245  INFO 3104 --- [restartedMain] c.b.bookstore.BookStoreApplication       : Book Store Application Started in dev Environment
+2022-09-14 08:37:50.261  INFO 3104 --- [restartedMain] c.b.bookstore.BookStoreApplication       : Book Store DB User is root
+2022-09-14 09:48:30.781  INFO 4304 --- [restartedMain] c.b.bookstore.BookStoreApplication       : Starting BookStoreApplication using Java 18.0.1.1 on DESKTOP-LR39488 with PID 4304 (C:\Users\admin\CFP_Projects\BookStore\target\classes started by admin in C:\Users\admin\CFP_Projects\BookStore)
+2022-09-14 09:48:30.837 DEBUG 4304 --- [restartedMain] c.b.bookstore.BookStoreApplication       : Running with Spring Boot v2.7.3, Spring v5.3.22
+2022-09-14 09:48:30.839  INFO 4304 --- [restartedMain] c.b.bookstore.BookStoreApplication       : The following 1 profile is active: "dev"
+2022-09-14 09:49:14.835  WARN 4304 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-09-14 09:49:18.138  INFO 4304 --- [restartedMain] c.b.bookstore.BookStoreApplication       : Started BookStoreApplication in 50.981 seconds (JVM running for 100.276)
+2022-09-14 09:49:18.147  INFO 4304 --- [restartedMain] c.b.bookstore.BookStoreApplication       : Book Store Application Started in dev Environment
+2022-09-14 09:49:18.151  INFO 4304 --- [restartedMain] c.b.bookstore.BookStoreApplication       : Book Store DB User is root
