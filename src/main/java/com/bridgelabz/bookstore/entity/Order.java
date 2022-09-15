@@ -9,10 +9,10 @@ import java.time.LocalDate;
 @Table(name = "order_table")
 @AllArgsConstructor
 public @Data class Order {
+
     @Id
     @GeneratedValue
     private Integer orderID;
-
     private LocalDate date = LocalDate.now();
     private Integer price;
     private Integer quantity;

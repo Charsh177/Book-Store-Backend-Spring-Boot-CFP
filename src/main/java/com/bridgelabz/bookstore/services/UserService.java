@@ -148,13 +148,13 @@ public class UserService implements IUserService {
     public UserData updateUser(String email_id, UserDTO userDTO) {
         Optional<UserData> updateUser = userRepository.findByEmailid(email_id);
         if(updateUser.isPresent()) {
-            UserData newBook = new UserData(updateUser.get().getUserId(),userDTO);
-            userRepository.save(newBook);
-            String token = util.createToken(newBook.getUserId());
-            emailService.sendEmail(newBook.getEmail(),"Welcome "+newBook.getUserName(),"Click here \n http://localhost:8080/user/getBy/"+token);
-            return newBook;
+            UserData newUser = new UserData(updateUser.get().getUserId(),userDTO);
+            userRepository.save(newUser);
+            String token = util.createToken(newUser.getUserId());
+            emailService.sendEmail(newUser.getEmail(),"Welcome "+newUser.getUserName(),"Click here \n http://localhost:8080/user/getBy/"+token);
+            return newUser;
         }
-        throw new BookException("Book Details for email not found");
+        throw new BookException("User Details for email not found..!!!");
     }
 
     @Override
@@ -177,7 +177,7 @@ public class UserService implements IUserService {
                     +"http://localhost:8080/user/getAll/"+token);
             return listOfUsers;
         }else {
-            System.out.println("Exception ...Token not found!");
+            System.out.println("Exception ...Token not found..!!!");
             return null;	}
     }
 
@@ -198,7 +198,7 @@ public class UserService implements IUserService {
                     +"http://localhost:8080/user/update/"+token);
             return newBook;
         }
-        throw new UserException("User Details for id not found");
+        throw new UserException("User Details for id not found..!!!");
     }
 
     @Override
@@ -209,7 +209,7 @@ public class UserService implements IUserService {
             userRepository.save(newBook);
             return newBook;
         }
-        throw new UserException("User Details for id not found");
+        throw new UserException("User Details for id not found..!!!");
     }
 
 }

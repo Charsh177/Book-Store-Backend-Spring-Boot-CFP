@@ -8,6 +8,7 @@ import com.bridgelabz.bookstore.exceptions.BookException;
 import com.bridgelabz.bookstore.repository.BookRepository;
 import com.bridgelabz.bookstore.repository.OrderRepository;
 import com.bridgelabz.bookstore.repository.UserRepository;
+import com.bridgelabz.bookstore.util.TokenUtility;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,9 +28,13 @@ public class OrderService implements IOrderService {
     @Autowired
     private UserRepository userRepository;
 
-    public Order createOrder(OrderDTO orderDTO) {
+    @Autowired
+    TokenUtility tokenUtility;
+
+    public Order createOrder(OrderDTO orderDTO, String token) {
         Optional<Book> book = bookRepository.findById(orderDTO.getBookId());
         Optional<UserData> user = userRepository.findById(orderDTO.getUserId());
+        Integer userId = tokenUtility.decodeToken(token);
         if (book.isPresent() && user.isPresent()) {
             if (orderDTO.getQuantity() < book.get().getQuantity()) {
                 System.out.println("The book price is :::: "+book.get().getPrice());
@@ -37,6 +42,8 @@ public class OrderService implements IOrderService {
                         book.get(), user.get(), orderDTO.isCancel(),book.get().getBookName());
                 orderRepository.save(newOrder);
                 book.get().setQuantity(book.get().getQuantity() - orderDTO.getQuantity());
+                newOrder.setPrice(newOrder.getPrice() * orderDTO.getQuantity());
+                bookRepository.save(book.get());
                 System.out.println("New Order is :::: " + newOrder);
                 return newOrder;
             } else {

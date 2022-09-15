@@ -109,9 +109,10 @@ public class UserController {
         ResponseDTO dto = new ResponseDTO("User Record updated successfully",entity);
         return new ResponseEntity(dto,HttpStatus.ACCEPTED);
     }
+
     @GetMapping("/getToken/{email}")
-    public ResponseEntity<ResponseDTO> getToken(@PathVariable String email){
-        String generatedToken=userService.getToken(email);
+    public ResponseEntity<ResponseDTO> getToken(@PathVariable String email) {
+        String generatedToken = userService.getToken(email);
         ResponseDTO responseDTO=new ResponseDTO("Token for mail id sent on mail successfully",generatedToken);
         return new ResponseEntity(responseDTO,HttpStatus.OK);
     }

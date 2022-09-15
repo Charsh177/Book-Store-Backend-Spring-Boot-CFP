@@ -18,9 +18,9 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
-    @PostMapping("/create")
-    public ResponseEntity<ResponseDTO> createOrder(@Valid @RequestBody OrderDTO orderdto){
-        Order newOrder = orderService.createOrder(orderdto);
+    @PostMapping("/create/{token}")
+    public ResponseEntity<ResponseDTO> createOrder(@Valid @RequestBody OrderDTO orderdto, @PathVariable String token){
+        Order newOrder = orderService.createOrder(orderdto, token);
         ResponseDTO dto = new ResponseDTO("Order registered successfully...",newOrder);
         return new ResponseEntity(dto, HttpStatus.CREATED);
     }
